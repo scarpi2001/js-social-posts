@@ -38,7 +38,7 @@ const posts = [
         "media": "https://unsplash.it/600/400?image=24",
         "author": {
             "name": "Luca Formicola",
-            "image": null
+            "image": "https://unsplash.it/300/300?image=20"
         },
         "likes": 56,
         "created": "2021-04-03"
@@ -55,39 +55,39 @@ const posts = [
         "created": "2021-03-05"
     }
 ];
+console.log(posts);
 
 //stampa posts in html
 const container = document.getElementById("container");
 for (let i = 0; i < posts.length; i++) {
-    let post = posts[i];
 
     let div = `
     <div class="post">
             <div class="post__header">
                 <div class="post-meta">                    
                     <div class="post-meta__icon">
-                        <img class="profile-pic" src="${post.author.image}" alt="${post.author.name}">                    
+                        <img class="profile-pic" src="${posts[i].author.image}" alt="${posts[i].author.name}">                    
                     </div>
                     <div class="post-meta__data">
-                        <div class="post-meta__author">${post.author.name}</div>
-                        <div class="post-meta__time">${post.created}</div>
+                        <div class="post-meta__author">${posts[i].author.name}</div>
+                        <div class="post-meta__time">${posts[i].created}</div>
                     </div>                    
                 </div>
             </div>
             <div class="post__text">Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.</div>
             <div class="post__image">
-                <img src="${post.media}" alt="">
+                <img src="${posts[i].media}" alt="">
             </div>
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#" data-postid="${post.id}">
+                        <span class="like-button  js-like-button" href="#" data-postid="${posts[i].id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
-                        </a>
+                        </span>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">${post.likes}</b> persone
+                        Piace a <b id="like-counter-${i}" class="js-likes-counter">${posts[i].likes}</b> persone
                     </div>
                 </div> 
             </div>            
@@ -97,3 +97,34 @@ for (let i = 0; i < posts.length; i++) {
     container.innerHTML += div;
     
 }
+
+//incrementa like, aggiungi classe colore, e pusha id in un array
+const btnLike = document.getElementsByClassName("like-button");
+console.log(btnLike);
+const listaId = [];
+for (let i = 0; i < btnLike.length; i++) {
+
+    let like = posts[i].likes;
+    let clicked = false;
+    
+    btnLike[i].addEventListener("click",
+        function(){
+            let counter = document.getElementById(`like-counter-${i}`);   
+            this.classList.toggle("like-button--liked");
+        
+            if (clicked === false) {
+                like++;
+                clicked = true
+                counter.innerHTML = like;
+                listaId.push(posts[i].id);
+            } else {
+                like--;
+                clicked = false
+                counter.innerHTML = like;
+            }    
+
+            console.log(listaId);       
+        }
+    );
+}
+
