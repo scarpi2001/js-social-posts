@@ -81,13 +81,13 @@ for (let i = 0; i < posts.length; i++) {
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <span class="like-button  js-like-button" href="#" data-postid="${posts[i].id}">
+                        <a class="like-button  js-like-button" href="#" data-postid="${posts[i].id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
-                        </span>
+                        </a>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-${i}" class="js-likes-counter">${posts[i].likes}</b> persone
+                        Piace a <b id="like-counter-${posts[i].id}" class="js-likes-counter">${posts[i].likes}</b> persone
                     </div>
                 </div> 
             </div>            
@@ -100,29 +100,25 @@ for (let i = 0; i < posts.length; i++) {
 
 //incrementa like, aggiungi classe colore, e pusha id in un array
 const btnLike = document.getElementsByClassName("like-button");
-console.log(btnLike);
 const listaId = [];
+
 for (let i = 0; i < btnLike.length; i++) {
 
     let like = posts[i].likes;
-    let clicked = false;
-    
+   
     btnLike[i].addEventListener("click",
         function(){
-            let counter = document.getElementById(`like-counter-${i}`);   
+            let counter = document.getElementById(`like-counter-${posts[i].id}`);   
             this.classList.toggle("like-button--liked");
         
-            if (clicked === false) {
+            if (this.classList.contains("like-button--liked")) {
                 like++;
-                clicked = true
-                counter.innerHTML = like;
                 listaId.push(posts[i].id);
             } else {
                 like--;
-                clicked = false
-                counter.innerHTML = like;
             }    
 
+            counter.innerHTML = like;
             console.log(listaId);       
         }
     );
